@@ -233,8 +233,8 @@ cn_adjust(77, 20)
 #| fig-width: 18 
 #| fig-height: 10
 library(lubridate)
-
-precip <- read.csv("./data/tanz-precip4.csv") |>
+library(arrow)
+precip <- read_parquet("./data/tanz-precip.parquet") |>
  select(date, mean) |>
  mutate(mean_precip = as.numeric(mean),
         date = dmy(date)) |>
