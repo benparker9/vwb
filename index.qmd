@@ -1,0 +1,287 @@
+---
+title: Volumetric Water Analysis Modeling Document      
+subtitle: Prepared by Reduce.Reuse.Grow.Inc  
+format: 
+  html:
+    code-tools: true
+    embed-resources: true
+    toc: true 
+    theme: flatly
+    page-layout: full
+    code-fold: true
+editor: visual
+execute:
+  warning: false
+  message: false
+---
+
+## Methodology Description   
+Method for Quantification of Benefits: [VWBA](https://www.wri.org/research/volumetric-water-benefit-accounting-2-0)
+
+Calculation Approach: Reduced runoff
+
+The Curve Number Runoff method as implemented in the Soil Water Assessment (SWAT) model ([Neitsch et al. 2011](https://oaktrust.library.tamu.edu/server/api/core/bitstreams/14750fbe-4b68-4f36-bcee-baac526f13ee/content)) was used to estimate the reduced runoff for the soil conservation works and reforestation. Water quantity calculations were focused on estimating the change in runoff volume because 
+
+1) runoff serves as a useful indicator for both hydrologic improvements (e.g., enhanced baseflow) and reductions in sediment erosion/yield; and 
+2) predictions of runoff are more certain than predictions for changes in baseflow for relatively small land areas. 
+
+
+The daily runoff quantity can be estimated as follows
+
+$$
+Q = \frac{(P - 0.2S)^2}{(P + 0.8S)} 
+$$
+
+where:
+
+- $Q$ = Runoff (mm) 
+- $P$ = Precipitation (mm)      
+- $S$ =  Potential maximum retention after runoff begins (mm)     
+
+The retention parameter (S) is related to the curve number (CN) as follows:   
+
+$$
+S = \frac{25,400}{CN} - 254   
+$$
+
+where:
+
+- $S$ = Retention factor     
+- $CN$ = Curve number (function of potential evapotranspiration and antecedent climate)      
+
+The CN ($CN_2$) number values are based off 5% slopes. If slopes are greater than 5%, the following equation is required:    
+
+$$
+CN_2s = \frac{(CN_3 - CN_2)}{3} * [1 - 2 * exp(-13.86 * slp)] + CN_2    
+$$
+
+where:    
+- $CN_2s$ = CN provided by table 2.1 adjusted by slope      
+- $slp$ = average slope of the project site   
+- $CN_1$ = CN at dry point (wilting point)    
+- $CN_3$ = CN at wet point (field capacity)   
+
+To calculate $CN_1$ and $CN_3$:   
+
+$$
+CN_1 = CN_2 - \frac{(20 * (100 - CN_2))}{(100 - CN_2 + exp[2.533 - 0.0636 * (100 - CN_2))}    
+$$
+
+$$
+CN_3 = CN_2 * exp[0.00673 * (100 - CN_2)]
+$$
+
+### Potential Evapotranspiration   
+The [Hamon method](https://www.hec.usace.army.mil/confluence/hmsdocs/hmstrm/evaporation-and-transpiration/hamon-method) was used to estimate daily potential evapotranspiration (PET) based on daily average air temperature and latitude and is as follows:   
+
+$$
+ET_o = c * N/12 * P_t
+$$    
+
+where:    
+- $ET_o$ = average potential evapotranspiration    
+- $c$ = coefficient     
+- $N$ = number of daylight hours   
+- $P_t$ = saturated water vapor density at daily mean temperature    
+
+The number of daylight hours N is computed as:    
+
+$$
+N = 24 / pie * W_s
+$$
+
+where:    
+- $W_s$ = sunset hour angle    
+
+The sunset hour angle is computed as:    
+
+$$
+W_s = \arccos[-\tan \phi \tan \delta]
+$$
+
+where:    
+- $\phi$ = latitude    
+- $\delta$ = solar declination   
+
+The saturation vapor pressure $e_s$ at the mean daily temperature T is computed as:      
+
+$$
+e_s(T) = 0.618exp[17.27 * T / T + 237.3]
+$$
+
+The saturation vapor density $P_t$ is computed as:   
+
+$$
+P_t = 216.7 * es(T) / T + 237.16
+$$
+
+   
+#### Hydrologic Soil Groups   
+[NASA's EarthData](https://search.earthdata.nasa.gov/search/granules?p=C2216864285-ORNL_CLOUD&pg[0][v]=f&pg[0][gsk]=-start_date) provides a globally consistent, gridded dataset of hydrologic soil groups (HSGs) with a geographical resolution of 1/480 decimal degrees, corresponding to a projected resolution of approximately 250-m. These data were developed to support USDA-based curve-number runoff modeling at regional and continental scales. Classification of HSGs was derived from soil texture classes and depth to bedrock provided by the Food and Agriculture Organization soilGrids250m system.
+
+- [User Manual](https://d3o6w55j8uz1ro.cloudfront.net/s3-d0f68fa49c8cba12794bb586349f2341/ornl-cumulus-prod-public.s3.us-west-2.amazonaws.com/global_soil/Global_Hydrologic_Soil_Group/comp/Global_Hydrologic_Soil_Group.pdf?A-userid=benparker9&Expires=1784583803&Signature=ksFaO5eZFisfNsX6ztDRjlIU9qPsh1KlRBsCeGYih~uMAdnXrpDQC1R3hHKJM1LUXx99ShiXksrMWzoxZK~2NixNlupLCI0jqn2FAw59yqrA6F5UhoZjwUOtTPy3Vq2NLtUZkbmHqgP1qCbOLRqCbctrb7Vka5F8yIjjpdfmycF0gr9V6G1-EbIKjSgS0dkVSsc6IEay88qhfGlz~kIzLGQvW3jHIemK~NXK-1ArwdkYbP1KftL1hFwVKDfuuctobCmmv8DWMuMfAdTJjcZnfUejbU3KJiWwxyWq6rMeroH00LqsAPITRgLW75i2Tv6hzlpOdSs3YPPoZ8wXP507lw__&Key-Pair-Id=K2SSAMUL94RG0Z)
+
+To access it, RRG downloaded the .tif file used project area boundaries to identify hydrologic soil groups for each project.
+
+
+
+#### Precipitation and Slope Data    
+Precipitation and slope data was extracted for each project zone using Google Earth Engine's Python API.     
+- [CHIRPS Precipitation data](https://developers.google.com/earth-engine/datasets/catalog/UCSB-CHC_CHIRPS_V3_DAILY_SAT)   
+- [Slope data](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_DEM_GLO30_2024_1)    
+- [Extraction script](./vwb-extraction.html)
+
+## VWB Benefits    
+The volume of surface runoff is quantified for two conditions: the "baseline" condition (the expected degraded condition of the land if it were not conserved) and the "with-project" condition (current condition with intact healthy land cover conserved). First, daily runoff volumes are calculated for each condition based on daily precipitation and other inputs. These values are summed to calculate the long-term annual average runoff volumes. The VWB is quantified as the difference in annual average runoff volume between the two conditions.   
+
+$$
+VWB = Qbaseline - Qproject
+$$
+
+### Helper Functions    
+
+```{r}
+
+library(gt)
+library(tidyverse)
+
+# curve number slope adjustment
+cn_adjust <- function(cn, slp) {
+  cn1 <- cn - ((20 * (100-cn)) / (100 - cn + exp(2.533 - 0.0636 * (100 - cn)))
+  )
+
+  cn3 <- cn * exp(0.00673 * (100 - cn))
+  cn_adj <- ((cn3 - cn) / 3) * (1 - 2 * exp(-13.86 * slp)) + cn 
+  print(paste("CN1:", cn1))
+  print(paste("CN3:", cn3))
+  print(paste("CN2_adj:", cn_adj))
+
+}
+
+# daily runoff quantity
+get_drq <- function(cn, df) {
+  s = (25400 / cn) - 254
+  df1 <- df |>
+    mutate(
+           drq = case_when(
+                mean_precip <= 0.2 * s ~ 0,
+                TRUE ~ ((mean_precip - 0.2 * s)^2) / (mean_precip + 0.8 * s)
+      ))
+    
+  return(df1)
+}
+
+# calculate annuals
+annuals <- function(df1, df2){
+  baseline_annual <- df1 |>
+    mutate(year = year(date)) |>
+    group_by(year) |>
+    summarize(annual_runoff_without = sum(drq, na.rm = TRUE)) |>
+    drop_na()
+ 
+  with_project_annual <- df2 |>
+    mutate(year = year(date)) |>
+    group_by(year) |>
+    summarize(annual_runoff_with = sum(drq, na.rm = TRUE)) |>
+    drop_na()
+
+  tot <- left_join(baseline_annual, with_project_annual, by = "year")
+
+  stats <- tot |>
+    mutate(change_runoff = annual_runoff_without - annual_runoff_with) 
+
+  return(stats)
+
+}
+
+
+```
+
+## Project Forest   
+
+### Curve Number        
+A curve number for the without-project condition and the with-project condition were estimated based on information provided by the NASA dataset and table 2.1-2 with the following assumptions on site conditions:         
+
+**Average slope: 20%**          
+
+**Without-project**    
+  - Brush-weed-grass mixture with bush as the major element   
+  - HSG D   
+  - Poor condition (<50% groundcover)   
+  - $CN$ = **83**    
+
+
+```{r}
+cn_adjust(83, 20)
+```
+
+**With-project**     
+  - Woods    
+  - HSG D   
+  - Good condition (woods are protected from grazing, litter and brush adaquetely cover the soil.)    
+  - $CN$ = **77**     
+
+```{r}
+cn_adjust(77, 20)
+```
+
+
+
+### VWB   
+
+```{r}
+#| fig-width: 18 
+#| fig-height: 10
+library(lubridate)
+
+precip <- read.csv("./data/tanz-precip4.csv") |>
+ select(date, mean) |>
+ mutate(mean_precip = as.numeric(mean),
+        date = dmy(date)) |>
+ group_by(date) |>
+ summarize(mean_precip = mean(mean_precip, na.rm = TRUE)) |>
+ arrange(date)
+
+baseline    <- get_drq(cn = 86, df = precip)   
+with_project <- get_drq(cn = 81, df = precip) 
+
+annual_changes <- annuals(df1 = baseline, df2 = with_project)
+
+annual_changes |>
+  gt() |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+    ) |> 
+  tab_header(
+    title = "Annual changes in runoff due to project activities."
+  ) |> 
+  fmt_number(columns = -year, decimals = 2) |>
+  cols_label(
+             year = "Year",
+             annual_runoff_without = "Annual Runoff Without Project (mm)",
+            annual_runoff_with = "Annual Runoff With Project (mm)",
+            change_runoff = "Annual Runoff Changes Due to Project (mm)"
+)
+
+
+library(patchwork)
+
+p1 <- annual_changes |>
+  select(-change_runoff) |>
+  pivot_longer(cols = annual_runoff_without:annual_runoff_with, names_to = "scenario", values_to = "runoff") |>
+  ggplot(aes(x = factor(year), y = runoff, fill = scenario)) +
+  geom_col(position = "dodge") +
+  labs(x = "Year", y = "Annual Runoff (mm)", fill = "Scenario", title = "Annual runoff in each project scenario") +
+  theme_bw()
+
+p2 <- annual_changes |>
+  ggplot(aes(x = year, y = change_runoff)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Year", y = "Annual Change in Runoff (mm)", fill = "Scenario", title = "Annual runoff changes due to project activities") +
+  theme_bw()
+
+p1 + p2
+
+```
