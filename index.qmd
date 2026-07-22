@@ -170,15 +170,16 @@ cn_adjust <- function(cn, slp) {
 }
 
 # daily runoff quantity
+# The 0.2S term represents "initial abstraction" - interception, infiltration, and surface storage that happens before any runoff starts. Physically, runoff can't occur until precipitation exceeds that threshold.
 get_drq <- function(cn, df) {
-  s = (25400 / cn) - 254
+  s <- (25400 / cn) - 254
   df1 <- df |>
     mutate(
-           drq = case_when(
-                mean_precip <= 0.2 * s ~ 0,
-                TRUE ~ ((mean_precip - 0.2 * s)^2) / (mean_precip + 0.8 * s)
-      ))
-    
+      drq = case_when(
+        mean_precip > 0.2 * s ~ ((mean_precip - 0.2 * s)^2) / (mean_precip + 0.8 * s),
+        TRUE ~ 0
+      )
+    )
   return(df1)
 }
 
@@ -200,22 +201,7 @@ pet <- function(df, lat) {
 
 }
 
-meta <- function(df1, df2) {
-  meta <- left_join(df1, df2, by = "date") |>
-    pivot_longer(cols = c(pet, mean_precip), names_to = "metric", values_to = "value")
-  meta |>
-    ggplot(aes(x = date, y = value, color = metric)) +
-    geom_point() +
-    geom_smooth(method = "loess", se = FALSE, span = 0.3) +
-    theme_bw() +
-    labs(title = "Water Balance Analysis Comparing Precipitation vs. Evapotranspiration",
-         x = "Date",
-         y = "Water (mm)", color = "Metric") +
-    scale_color_manual(
-      values = c("pet" = "#d95f02", "mean_precip" = "#1b9e77"),
-      labels = c("pet" = "PET (mm)", "mean_precip" = "Precipitation (mm)")
-  ) 
-}
+
 
 
 
@@ -286,6 +272,25 @@ vis_changes <- function(df) {
 }
 
 
+meta <- function(df1, df2) {
+  meta <- left_join(df1, df2, by = "date") |>
+    left_join(with_project, by = c("date", "mean_precip")) |>
+    pivot_longer(cols = c(pet, mean_precip, drq), names_to = "metric", values_to = "value")
+  meta |>
+    ggplot(aes(x = date, y = value, color = metric)) +
+    geom_point() +
+    geom_smooth(method = "loess", se = FALSE, span = 0.3) +
+    coord_cartesian(ylim = c(0, 14)) +
+    theme_bw() +
+    labs(title = "Water Balance Analysis Comparing Precipitation, Evapotranspiration and Daily Runoff Quantity",
+         x = "Date",
+         y = "Water (mm)", color = "Metric") +
+    scale_color_manual(
+      values = c("pet" = "#d95f02", "mean_precip" = "#1b9e77", "drq" = "#9328D4"),
+      labels = c("pet" = "Potential Evapotranspiration (mm)", "mean_precip" = "Precipitation (mm)", "drq" = "Daily Runoff Quantity (mm) w/ Project")
+  ) 
+}
+
 
 
 
@@ -338,6 +343,15 @@ precip <- read_parquet("./data/tanz-precip.parquet") |>
  summarize(mean_precip = mean(mean_precip, na.rm = TRUE)) |>
  arrange(date)
 
+
+baseline    <- get_drq(cn = 86, df = precip)   
+with_project <- get_drq(cn = 81, df = precip) 
+
+annual_changes <- annuals(df1 = baseline, df2 = with_project)
+
+table_changes(annual_changes)
+vis_changes(annual_changes)
+
 # convert K to C = K - 273.15
 temp <- read_parquet("./data/tanz-temp.parquet") |> select(date, temperature_2m_min, temperature_2m_max) |>
   mutate(min_temp_c = temperature_2m_min - 273.15,
@@ -355,13 +369,7 @@ pet_tanz <- pet(temp, -4.8878768365216425)
 meta(pet_tanz, precip)
 
 
-baseline    <- get_drq(cn = 86, df = precip)   
-with_project <- get_drq(cn = 81, df = precip) 
 
-annual_changes <- annuals(df1 = baseline, df2 = with_project)
-
-table_changes(annual_changes)
-vis_changes(annual_changes)
 
 ```
 
@@ -398,6 +406,14 @@ precip_mal <- read_parquet("./data/mal-precip.parquet") |>
  summarize(mean_precip = mean(mean, na.rm = TRUE)) |>
  arrange(date)
 
+baseline    <- get_drq(cn = 77, df = precip_mal)   
+with_project <- get_drq(cn = 70, df = precip_mal) 
+
+annual_changes <- annuals(df1 = baseline, df2 = with_project)
+
+table_changes(annual_changes)
+vis_changes(annual_changes)
+
 temp_mal <- read_parquet("./data/mal-temp.parquet") |> select(date, temperature_2m_min, temperature_2m_max) |>
   mutate(min_temp_c = temperature_2m_min - 273.15,
          max_temp_c = temperature_2m_max - 273.15,
@@ -413,13 +429,7 @@ pet_mal <- pet(temp_mal, -14.23418337715322)
 
 meta(pet_mal, precip_mal)
 
-baseline    <- get_drq(cn = 77, df = precip_mal)   
-with_project <- get_drq(cn = 70, df = precip_mal) 
 
-annual_changes <- annuals(df1 = baseline, df2 = with_project)
-
-table_changes(annual_changes)
-vis_changes(annual_changes)
 
 ```
 
@@ -467,6 +477,17 @@ precip_pef <- read_parquet("./data/pef-precip.parquet") |>
  summarize(mean_precip = mean(mean, na.rm = TRUE)) |>
  arrange(date)
 
+
+
+baseline    <- get_drq(cn = 77, df = precip_pef)   
+with_project <- get_drq(cn = 75, df = precip_pef) 
+
+annual_changes <- annuals(df1 = baseline, df2 = with_project)
+
+table_changes(annual_changes)
+vis_changes(annual_changes)
+
+
 temp_pef <- read_parquet("./data/pef-temp.parquet") |> select(date, temperature_2m_min, temperature_2m_max) |>
   mutate(min_temp_c = temperature_2m_min - 273.15,
          max_temp_c = temperature_2m_max - 273.15,
@@ -483,13 +504,6 @@ pet_pef <- pet(temp_pef, 7.190856906030324)
 meta(pet_pef, precip_pef)
 
 
-baseline    <- get_drq(cn = 77, df = precip_pef)   
-with_project <- get_drq(cn = 75, df = precip_pef) 
-
-annual_changes <- annuals(df1 = baseline, df2 = with_project)
-
-table_changes(annual_changes)
-vis_changes(annual_changes)
 ```
 
 
