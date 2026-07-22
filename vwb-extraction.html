@@ -7515,7 +7515,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [45]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ee</span>
@@ -7529,16 +7529,50 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e46ab742-c574-4c23-a4e4-136bb327ed7f">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e46ab742-c574-4c23-a4e4-136bb327ed7f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">tanz</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="s1">'projects/serene-notch-457015-i6/assets/p1zip'</span><span class="p">)</span>
+<span class="n">mal</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="s1">'projects/serene-notch-457015-i6/assets/pinstance1MAL'</span><span class="p">)</span>
+<span class="n">pef_p1</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="s2">"projects/serene-notch-457015-i6/assets/parcel1_grid_wgs"</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
 </div>
 </div>
 </div>
@@ -7548,7 +7582,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [81]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_slope</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">ele_min</span><span class="p">,</span> <span class="n">ele_max</span><span class="p">):</span>
@@ -7557,7 +7591,7 @@ a.anchor-link {
     <span class="n">ele_img</span> <span class="o">=</span> <span class="n">slope</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'DEM'</span><span class="p">)</span><span class="o">.</span><span class="n">mosaic</span><span class="p">()</span><span class="o">.</span><span class="n">setDefaultProjection</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span>
     <span class="n">shp_slope</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Terrain</span><span class="o">.</span><span class="n">slope</span><span class="p">(</span><span class="n">ele_img</span><span class="p">)</span>
 
-    <span class="n">m</span> <span class="o">=</span> <span class="s2">"Average, min, max slope of the project site"</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="s2">"Average, max slope, max elevation of the project site"</span>
     <span class="n">avg</span> <span class="o">=</span> <span class="n">shp_slope</span><span class="o">.</span><span class="n">reduceRegion</span><span class="p">(</span>
         <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
         <span class="n">geometry</span><span class="o">=</span><span class="n">shp</span><span class="p">,</span>
@@ -7639,12 +7673,150 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c4a71a95-ae70-407f-a0f6-7e64a1f46f94">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_day_intervals</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2023</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+    
+    <span class="n">dates</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">curr</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">while</span> <span class="n">curr</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
+        <span class="n">next_day</span> <span class="o">=</span> <span class="n">curr</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curr</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">),</span> <span class="n">next_day</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)))</span>
+        <span class="n">curr</span> <span class="o">=</span> <span class="n">next_day</span>
+    <span class="k">return</span> <span class="n">dates</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Days</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Generates tuples of (start_date, end_date) for a full calendar year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">days</span> <span class="o">=</span> <span class="n">generate_day_intervals</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_days</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return list of (start_md, end_md) date tuples"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">days</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span> <span class="k">as</span> <span class="n">_date</span>
+
+<span class="n">precip_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">temp_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">combined_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">total_precip</span> <span class="o">=</span> <span class="n">Days</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">vwb_data</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">2024</span><span class="p">,</span> <span class="mi">2025</span><span class="p">,</span> <span class="mi">2026</span><span class="p">]</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">_date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">start_md</span><span class="p">,</span> <span class="n">end_md</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">total_precip</span><span class="o">.</span><span class="n">get_days</span><span class="p">()):</span>
+            <span class="n">start_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">start_md</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">start_date_obj</span> <span class="o">=</span> <span class="n">_date</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start_date_obj</span> <span class="o">&gt;</span> <span class="n">today</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">start_md</span> <span class="o">==</span> <span class="s2">"12-31"</span><span class="p">:</span>
+                <span class="n">end_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">-01-01"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">end_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">end_md</span><span class="si">}</span><span class="s2">"</span>
+
+            <span class="n">precip</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s1">'UCSB-CHC/CHIRPS/V3/DAILY_SAT'</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">precipImage</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Algorithms</span><span class="o">.</span><span class="n">If</span><span class="p">(</span>
+                <span class="n">precip</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">precip</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'precipitation'</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'precipitation'</span><span class="p">),</span>
+                <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'precipitation'</span><span class="p">)</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span>
+            <span class="p">))</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>   
+
+            <span class="n">precip_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">precipImage</span><span class="p">)</span>
+
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s1">'ECMWF/ERA5_LAND/DAILY_AGGR'</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">bands</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'temperature_2m_min'</span><span class="p">,</span> <span class="s1">'temperature_2m_max'</span><span class="p">]</span>
+            
+            <span class="n">tempImage</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Algorithms</span><span class="o">.</span><span class="n">If</span><span class="p">(</span>
+                <span class="n">temp</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">temp</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">bands</span><span class="p">),</span>
+                <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">bands</span><span class="p">))</span>
+                    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">bands</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                    <span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span>
+                <span class="p">))</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>
+
+            <span class="n">temp_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tempImage</span><span class="p">)</span>
+
+            <span class="n">combinedImage</span> <span class="o">=</span> <span class="n">precipImage</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">tempImage</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>
+            <span class="n">combined_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">combinedImage</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">precip</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Interval </span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2"> images"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Year </span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2"> | Day </span><span class="si">{</span><span class="n">idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> | Current list size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">precip_images</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3d70e464-c6e0-478d-90a4-0feb996c824f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Project-Forest-Instance-1">Project Forest Instance 1<a class="anchor-link" href="#Project-Forest-Instance-1">¶</a></h2>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d931875e-5446-427e-84e8-23211705061b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [82]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [59]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">get_slope</span><span class="p">(</span><span class="n">tanz</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">2500</span><span class="p">)</span>
@@ -7690,161 +7862,12 @@ a.anchor-link {
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[82]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[59]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>('Average, min, max slope of the project site',
+<pre>('Average, max slope, max elevation of the project site',
  {'slope': 20.61029154768427},
  {'slope': 64.5446548461914},
  {'DEM': 2300.466796875})</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c4a71a95-ae70-407f-a0f6-7e64a1f46f94">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [83]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">generate_day_intervals</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2023</span><span class="p">):</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-    
-    <span class="n">dates</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">curr</span> <span class="o">=</span> <span class="n">start</span>
-    <span class="k">while</span> <span class="n">curr</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
-        <span class="n">next_day</span> <span class="o">=</span> <span class="n">curr</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">dates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curr</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">),</span> <span class="n">next_day</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)))</span>
-        <span class="n">curr</span> <span class="o">=</span> <span class="n">next_day</span>
-    <span class="k">return</span> <span class="n">dates</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">Days</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Generates tuples of (start_date, end_date) for a full calendar year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">days</span> <span class="o">=</span> <span class="n">generate_day_intervals</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_days</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Return list of (start_md, end_md) date tuples"""</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">days</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<style>
-                .geemap-dark {
-                    --jp-widgets-color: white;
-                    --jp-widgets-label-color: white;
-                    --jp-ui-font-color1: white;
-                    --jp-layout-color2: #454545;
-                    background-color: #383838;
-                }
-
-                .geemap-dark .jupyter-button {
-                    --jp-layout-color3: #383838;
-                }
-
-                .geemap-colab {
-                    background-color: var(--colab-primary-surface-color, white);
-                }
-
-                .geemap-colab .jupyter-button {
-                    --jp-layout-color3: var(--colab-primary-surface-color, white);
-                }
-            </style>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5e62ad1f-843e-4e53-a391-e7b953e46d76">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [84]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span> <span class="k">as</span> <span class="n">_date</span>
-
-<span class="n">precip_images</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">total_precip</span> <span class="o">=</span> <span class="n">Days</span><span class="p">()</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">vwb_data</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">2024</span><span class="p">,</span> <span class="mi">2025</span><span class="p">,</span> <span class="mi">2026</span><span class="p">]</span>
-    <span class="n">today</span> <span class="o">=</span> <span class="n">_date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">start_md</span><span class="p">,</span> <span class="n">end_md</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">total_precip</span><span class="o">.</span><span class="n">get_days</span><span class="p">()):</span>
-            <span class="n">start_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">start_md</span><span class="si">}</span><span class="s2">"</span>
-            <span class="n">start_date_obj</span> <span class="o">=</span> <span class="n">_date</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">start_date_obj</span> <span class="o">&gt;</span> <span class="n">today</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">start_md</span> <span class="o">==</span> <span class="s2">"12-31"</span><span class="p">:</span>
-                <span class="n">end_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">-01-01"</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">end_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">end_md</span><span class="si">}</span><span class="s2">"</span>
-
-            <span class="n">precip</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s1">'UCSB-CHC/CHIRPS/V3/DAILY_SAT'</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span>
-            <span class="p">)</span>
-
-            <span class="n">precipImage</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Algorithms</span><span class="o">.</span><span class="n">If</span><span class="p">(</span>
-                <span class="n">precip</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-                <span class="n">precip</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'precipitation'</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'precipitation'</span><span class="p">),</span>
-                <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'precipitation'</span><span class="p">)</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span>
-            <span class="p">))</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>   <span class="c1"># &lt;-- attached OUTSIDE the If, applies to both branches</span>
-
-            <span class="n">precip_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">precipImage</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                <span class="n">size</span> <span class="o">=</span> <span class="n">precip</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Interval </span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2"> images"</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Year </span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2"> | Day </span><span class="si">{</span><span class="n">idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> | Current list size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">precip_images</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<style>
-                .geemap-dark {
-                    --jp-widgets-color: white;
-                    --jp-widgets-label-color: white;
-                    --jp-ui-font-color1: white;
-                    --jp-layout-color2: #454545;
-                    background-color: #383838;
-                }
-
-                .geemap-dark .jupyter-button {
-                    --jp-layout-color3: #383838;
-                }
-
-                .geemap-colab {
-                    background-color: var(--colab-primary-surface-color, white);
-                }
-
-                .geemap-colab .jupyter-button {
-                    --jp-layout-color3: var(--colab-primary-surface-color, white);
-                }
-            </style>
 </div>
 </div>
 </div>
@@ -7854,7 +7877,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [85]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vwb_data</span><span class="p">(</span><span class="n">tanz</span><span class="p">)</span>
@@ -7909,19 +7932,19 @@ Year 2025 | Day 200 | Current list size: 930
 Year 2025 | Day 300 | Current list size: 1030
 Year 2026 | Day 100 | Current list size: 1195
 Year 2026 | Day 200 | Current list size: 1295
-1297
+1298
 2023-01-01
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5d361f38-37ab-46af-9ced-58ea9523ecbb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5d361f38-37ab-46af-9ced-58ea9523ecbb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [109]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">precip_list</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">precip_images</span><span class="p">)</span>
@@ -7930,7 +7953,7 @@ Year 2026 | Day 200 | Current list size: 1295
     <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
     <span class="n">date_str</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">reduceRegions</span><span class="p">(</span>
-        <span class="n">collection</span><span class="o">=</span><span class="n">tanz</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">'point_id'</span><span class="p">]),</span>  <span class="c1"># keep whatever ID field tanz has — swap 'point_id' for your real field name</span>
+        <span class="n">collection</span><span class="o">=</span><span class="n">tanz</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">'point_id'</span><span class="p">]),</span>  
         <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
         <span class="n">scale</span><span class="o">=</span><span class="mi">25</span>
     <span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">date_str</span><span class="p">))</span>
@@ -7941,11 +7964,43 @@ Year 2026 | Day 200 | Current list size: 1295
 <span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
     <span class="n">collection</span><span class="o">=</span><span class="n">reduced_fc</span><span class="p">,</span>
     <span class="n">folder</span><span class="o">=</span><span class="s1">'gee_exports'</span><span class="p">,</span>
-    <span class="n">fileNamePrefix</span><span class="o">=</span><span class="s1">'tanz-precip4'</span><span class="p">,</span>
+    <span class="n">fileNamePrefix</span><span class="o">=</span><span class="s1">'mal-clim'</span><span class="p">,</span>
     <span class="n">fileFormat</span><span class="o">=</span><span class="s1">'CSV'</span>
 <span class="p">)</span>
 <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
 </div>
 </div>
 </div>
@@ -7955,7 +8010,7 @@ Year 2026 | Day 200 | Current list size: 1295
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [114]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="p">())</span>
@@ -7970,9 +8025,875 @@ Year 2026 | Day 200 | Current list size: 1295
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'state': 'COMPLETED', 'description': 'myExportTableTask', 'priority': 100, 'creation_timestamp_ms': 1784586203756, 'update_timestamp_ms': 1784586311162, 'start_timestamp_ms': 1784586212651, 'task_type': 'EXPORT_FEATURES', 'destination_uris': ['https://drive.google.com/#folders/16famz0kwOY4G-iITQXYUE5n-xaDbxnOr'], 'attempt': 1, 'batch_eecu_usage_seconds': 939.7049560546875, 'id': 'FIPCF6O2LMLZHMEIHQ6IIKVI', 'name': 'projects/anacondagee/operations/FIPCF6O2LMLZHMEIHQ6IIKVI'}
+<pre>{'state': 'RUNNING', 'description': 'myExportTableTask', 'priority': 100, 'creation_timestamp_ms': 1784739882389, 'update_timestamp_ms': 1784740187187, 'start_timestamp_ms': 1784739886088, 'task_type': 'EXPORT_FEATURES', 'attempt': 1, 'batch_eecu_usage_seconds': 1251.9765625, 'id': 'JYKA4JIHCXCCLK4ZFK37IMUQ', 'name': 'projects/anacondagee/operations/JYKA4JIHCXCCLK4ZFK37IMUQ'}
 </pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b8b1ff98-696b-4167-9fb6-efdd4eeefe8f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">temp_list</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">temp_images</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reduce_one</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">date_str</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">reduceRegions</span><span class="p">(</span>
+        <span class="n">collection</span><span class="o">=</span><span class="n">tanz</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">'point_id'</span><span class="p">]),</span>  
+        <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mi">25</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">date_str</span><span class="p">))</span>
+
+<span class="n">reduced_list</span> <span class="o">=</span> <span class="n">temp_list</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">reduce_one</span><span class="p">)</span>
+<span class="n">reduced_fc</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">reduced_list</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
+    <span class="n">collection</span><span class="o">=</span><span class="n">reduced_fc</span><span class="p">,</span>
+    <span class="n">folder</span><span class="o">=</span><span class="s1">'gee_exports'</span><span class="p">,</span>
+    <span class="n">fileNamePrefix</span><span class="o">=</span><span class="s1">'tanz-temp'</span><span class="p">,</span>
+    <span class="n">fileFormat</span><span class="o">=</span><span class="s1">'CSV'</span>
+<span class="p">)</span>
+<span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5c4a75e3-987d-44b4-b585-7a013c8a6275">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{'state': 'RUNNING', 'description': 'myExportTableTask', 'priority': 100, 'creation_timestamp_ms': 1784741657082, 'update_timestamp_ms': 1784741760468, 'start_timestamp_ms': 1784741660089, 'task_type': 'EXPORT_FEATURES', 'attempt': 1, 'batch_eecu_usage_seconds': 1519.891235351, 'id': 'YCVH4KQGEDMYDBUS67PLX62P', 'name': 'projects/anacondagee/operations/YCVH4KQGEDMYDBUS67PLX62P'}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5971170b-0f4b-4686-aef4-39ef1c72a8e8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="IFMRC">IFMRC<a class="anchor-link" href="#IFMRC">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bc171098-e6c8-4896-9950-35a8cabfcfb9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [57]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">get_slope</span><span class="p">(</span><span class="n">mal</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Map(center=[-14.2294474036655, 33.59453269831155], controls=(WidgetControl(options=['position', 'transparent_b…</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[57]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>('Average, max slope, max elevation of the project site',
+ {'slope': 1.6153783149171768},
+ {'slope': 7.332784175872803},
+ {'DEM': 1172.6480712890625})</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=52b8fe48-c16c-4eb9-b60e-d46ede172369">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [50]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">precip_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">temp_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">total_precip</span> <span class="o">=</span> <span class="n">Days</span><span class="p">()</span>
+<span class="n">vwb_data</span><span class="p">(</span><span class="n">mal</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">precip_images</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">precip_images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Year 2023 | Day 100 | Current list size: 100
+Year 2023 | Day 200 | Current list size: 200
+Year 2023 | Day 300 | Current list size: 300
+Year 2024 | Day 100 | Current list size: 465
+Year 2024 | Day 200 | Current list size: 565
+Year 2024 | Day 300 | Current list size: 665
+Year 2025 | Day 100 | Current list size: 830
+Year 2025 | Day 200 | Current list size: 930
+Year 2025 | Day 300 | Current list size: 1030
+Year 2026 | Day 100 | Current list size: 1195
+Year 2026 | Day 200 | Current list size: 1295
+1298
+2023-01-01
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9875a4b2-9ffc-4e9d-8195-52109ef6f2de">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">precip_list</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">precip_images</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reduce_one</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">date_str</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">reduceRegions</span><span class="p">(</span>
+        <span class="n">collection</span><span class="o">=</span><span class="n">mal</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">'point_id'</span><span class="p">]),</span>  
+        <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mi">25</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">date_str</span><span class="p">))</span>
+
+<span class="n">reduced_list</span> <span class="o">=</span> <span class="n">precip_list</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">reduce_one</span><span class="p">)</span>
+<span class="n">reduced_fc</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">reduced_list</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
+    <span class="n">collection</span><span class="o">=</span><span class="n">reduced_fc</span><span class="p">,</span>
+    <span class="n">folder</span><span class="o">=</span><span class="s1">'gee_exports'</span><span class="p">,</span>
+    <span class="n">fileNamePrefix</span><span class="o">=</span><span class="s1">'mal-clim'</span><span class="p">,</span>
+    <span class="n">fileFormat</span><span class="o">=</span><span class="s1">'CSV'</span>
+<span class="p">)</span>
+<span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b9c8fe17-16a6-431e-b03f-5f01ee4e4f51">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{'state': 'READY', 'description': 'myExportTableTask', 'priority': 100, 'creation_timestamp_ms': 1784739517578, 'update_timestamp_ms': 1784739517578, 'start_timestamp_ms': 0, 'task_type': 'EXPORT_FEATURES', 'id': '6EMVAKT6L35BX5YA7Z6CXLT6', 'name': 'projects/anacondagee/operations/6EMVAKT6L35BX5YA7Z6CXLT6'}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6459a1e8-7a91-422b-b235-c2c350b8faac">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [51]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">temp_list</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">temp_images</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reduce_one</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">date_str</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">reduceRegions</span><span class="p">(</span>
+        <span class="n">collection</span><span class="o">=</span><span class="n">mal</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">'point_id'</span><span class="p">]),</span>  
+        <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mi">25</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">date_str</span><span class="p">))</span>
+
+<span class="n">reduced_list</span> <span class="o">=</span> <span class="n">temp_list</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">reduce_one</span><span class="p">)</span>
+<span class="n">reduced_fc</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">reduced_list</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
+    <span class="n">collection</span><span class="o">=</span><span class="n">reduced_fc</span><span class="p">,</span>
+    <span class="n">folder</span><span class="o">=</span><span class="s1">'gee_exports'</span><span class="p">,</span>
+    <span class="n">fileNamePrefix</span><span class="o">=</span><span class="s1">'mal-temp2'</span><span class="p">,</span>
+    <span class="n">fileFormat</span><span class="o">=</span><span class="s1">'CSV'</span>
+<span class="p">)</span>
+<span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1d254345-d670-4cdf-a3f2-e0a854429701">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [53]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{'state': 'COMPLETED', 'description': 'myExportTableTask', 'priority': 100, 'creation_timestamp_ms': 1784745028236, 'update_timestamp_ms': 1784745071642, 'start_timestamp_ms': 1784745030223, 'task_type': 'EXPORT_FEATURES', 'destination_uris': ['https://drive.google.com/#folders/16famz0kwOY4G-iITQXYUE5n-xaDbxnOr'], 'attempt': 1, 'batch_eecu_usage_seconds': 22.586837768554688, 'id': 'PIQZ7PCP5BYAQXVVFVIGFBVA', 'name': 'projects/anacondagee/operations/PIQZ7PCP5BYAQXVVFVIGFBVA'}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f6d21a7b-4b0c-4c9f-b1dc-53d18a8e04b9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Project-ReGAIN">Project ReGAIN<a class="anchor-link" href="#Project-ReGAIN">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=281a6f14-c1bb-49a3-9693-6ba8d8ac7939">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [58]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">get_slope</span><span class="p">(</span><span class="n">pef_p1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Map(center=[7.191801212694971, 125.29187413417363], controls=(WidgetControl(options=['position', 'transparent_…</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[58]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>('Average, max slope, max elevation of the project site',
+ {'slope': 28.16314751671431},
+ {'slope': 59.65312957763672},
+ {'DEM': 1345.284423828125})</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=731ac4ae-b2a0-4ca7-9278-a496b58d2ae9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [54]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">precip_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">temp_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">total_precip</span> <span class="o">=</span> <span class="n">Days</span><span class="p">()</span>
+<span class="n">vwb_data</span><span class="p">(</span><span class="n">pef_p1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">precip_images</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">precip_images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Year 2023 | Day 100 | Current list size: 100
+Year 2023 | Day 200 | Current list size: 200
+Year 2023 | Day 300 | Current list size: 300
+Year 2024 | Day 100 | Current list size: 465
+Year 2024 | Day 200 | Current list size: 565
+Year 2024 | Day 300 | Current list size: 665
+Year 2025 | Day 100 | Current list size: 830
+Year 2025 | Day 200 | Current list size: 930
+Year 2025 | Day 300 | Current list size: 1030
+Year 2026 | Day 100 | Current list size: 1195
+Year 2026 | Day 200 | Current list size: 1295
+1298
+2023-01-01
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=67002078-ef40-4f40-8fdc-78a702689c03">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">precip_list</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">precip_images</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reduce_one</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">date_str</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">reduceRegions</span><span class="p">(</span>
+        <span class="n">collection</span><span class="o">=</span><span class="n">pef_p1</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">'point_id'</span><span class="p">]),</span>  
+        <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mi">25</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">date_str</span><span class="p">))</span>
+
+<span class="n">reduced_list</span> <span class="o">=</span> <span class="n">precip_list</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">reduce_one</span><span class="p">)</span>
+<span class="n">reduced_fc</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">reduced_list</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
+    <span class="n">collection</span><span class="o">=</span><span class="n">reduced_fc</span><span class="p">,</span>
+    <span class="n">folder</span><span class="o">=</span><span class="s1">'gee_exports'</span><span class="p">,</span>
+    <span class="n">fileNamePrefix</span><span class="o">=</span><span class="s1">'pef-precip2'</span><span class="p">,</span>
+    <span class="n">fileFormat</span><span class="o">=</span><span class="s1">'CSV'</span>
+<span class="p">)</span>
+<span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e1f6e2a0-25a3-4148-82b1-e9ea3eb3d0ab">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [56]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{'state': 'COMPLETED', 'description': 'myExportTableTask', 'priority': 100, 'creation_timestamp_ms': 1784745324601, 'update_timestamp_ms': 1784745405655, 'start_timestamp_ms': 1784745330421, 'task_type': 'EXPORT_FEATURES', 'destination_uris': ['https://drive.google.com/#folders/16famz0kwOY4G-iITQXYUE5n-xaDbxnOr'], 'attempt': 1, 'batch_eecu_usage_seconds': 401.56060791015625, 'id': 'WIAIG5B7YYNO6AKXUZTYI2XR', 'name': 'projects/anacondagee/operations/WIAIG5B7YYNO6AKXUZTYI2XR'}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=53b18715-48c8-4d89-8d72-6ca7ac60bcfc">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [55]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">temp_list</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">temp_images</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reduce_one</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">date_str</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'date'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">reduceRegions</span><span class="p">(</span>
+        <span class="n">collection</span><span class="o">=</span><span class="n">pef_p1</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s1">'point_id'</span><span class="p">]),</span>  
+        <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mi">25</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">date_str</span><span class="p">))</span>
+
+<span class="n">reduced_list</span> <span class="o">=</span> <span class="n">temp_list</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">reduce_one</span><span class="p">)</span>
+<span class="n">reduced_fc</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">reduced_list</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
+    <span class="n">collection</span><span class="o">=</span><span class="n">reduced_fc</span><span class="p">,</span>
+    <span class="n">folder</span><span class="o">=</span><span class="s1">'gee_exports'</span><span class="p">,</span>
+    <span class="n">fileNamePrefix</span><span class="o">=</span><span class="s1">'pef-temp'</span><span class="p">,</span>
+    <span class="n">fileFormat</span><span class="o">=</span><span class="s1">'CSV'</span>
+<span class="p">)</span>
+<span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ef259ddd-36f1-4a14-b9ac-ed1971fbef70">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span> 
+</pre></div>
 </div>
 </div>
 </div>
