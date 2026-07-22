@@ -71,23 +71,32 @@ $$
 CN_3 = CN_2 * exp[0.00673 * (100 - CN_2)]
 $$
 
-### Potential Evapotranspiration   
-The [Hamon method](https://www.hec.usace.army.mil/confluence/hmsdocs/hmstrm/evaporation-and-transpiration/hamon-method) was used to estimate daily potential evapotranspiration (PET) based on daily average air temperature and latitude and is as follows:   
+### Daily Potential Evapotranspiration   
+The [Hamon method](https://qed.epa.gov/hms/hydrology/evapotranspiration/algorithms/) was used to estimate daily potential evapotranspiration (PET) based on daily average air temperature, solar declination and latitude. Daily PET is only needed to quantify daily runoff with more complex methdologies such as the Green and Impt method and is not used in the Curve Number method. However, RRG will quantify daily PET to compare with daily precipitation.        
+
+To quantify daily PET:    
 
 $$
-ET_o = c * N/12 * P_t
+PET = \frac{2.1 * H^2 * e^s}{273.2 + T_{\text{mean}} }
 $$    
 
 where:    
-- $ET_o$ = average potential evapotranspiration    
-- $c$ = coefficient     
-- $N$ = number of daylight hours   
-- $P_t$ = saturated water vapor density at daily mean temperature    
+- $PET$ = potential evapotranspiration    
+- $H^2$ = number of daylight hours         
+- $T_{\text{mean}}$ = average daily temperature         
 
-The number of daylight hours N is computed as:    
+
+
+$e^s$ is quantified as:     
 
 $$
-N = 24 / pie * W_s
+e^s = 0.6108 * e^{\frac{17.27 * T_{\text{mean}}}{237.3 + T_{\text{{mean}}}}}
+$$
+
+The number of daylight hours N is [computed](https://www.hec.usace.army.mil/confluence/hmsdocs/hmstrm/evaporation-and-transpiration/hamon-method) as:    
+
+$$
+N = \frac{24}{pie * W_s}
 $$
 
 where:    
@@ -103,18 +112,6 @@ where:
 - $\phi$ = latitude    
 - $\delta$ = solar declination   
 
-The saturation vapor pressure $e_s$ at the mean daily temperature T is computed as:      
-
-$$
-e_s(T) = 0.618exp[17.27 * T / T + 237.3]
-$$
-
-The saturation vapor density $P_t$ is computed as:   
-
-$$
-P_t = 216.7 * es(T) / T + 237.16
-$$
-
    
 #### Hydrologic Soil Groups   
 [NASA's EarthData](https://search.earthdata.nasa.gov/search/granules?p=C2216864285-ORNL_CLOUD&pg[0][v]=f&pg[0][gsk]=-start_date) provides a globally consistent, gridded dataset of hydrologic soil groups (HSGs) with a geographical resolution of 1/480 decimal degrees, corresponding to a projected resolution of approximately 250-m. These data were developed to support USDA-based curve-number runoff modeling at regional and continental scales. Classification of HSGs was derived from soil texture classes and depth to bedrock provided by the Food and Agriculture Organization soilGrids250m system.
@@ -125,11 +122,22 @@ To access it, RRG downloaded the .tif file used project area boundaries to ident
 
 
 
-#### Precipitation and Slope Data    
+#### Precipitation, Temperature, Slope, Latitude and Solar Declination Data    
 Precipitation and slope data was extracted for each project zone using Google Earth Engine's Python API.     
 - [CHIRPS Precipitation data](https://developers.google.com/earth-engine/datasets/catalog/UCSB-CHC_CHIRPS_V3_DAILY_SAT)   
-- [Slope data](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_DEM_GLO30_2024_1)    
-- [Extraction script](./vwb-extraction.html)
+- [ECMWF Climate Reanalysis](https://developers.google.com/earth-engine/datasets/catalog/ECMWF_ERA5_LAND_DAILY_AGGR)    
+- [Slope data](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_DEM_GLO30_2024_1)   
+- [Extraction script](./vwb-extraction.html)  
+- Latitude was obtained through Google Earth Engine webmaps for each project site   
+
+[Declination](https://www.pveducation.org/pvcdrom/properties-of-sunlight/declination-angle) was calculated with the following equation:       
+
+$$
+\delta = -23.45 * cos{\frac{360}{365} * (d + 10)}     
+$$
+
+where:      
+- $d$ = day of the year with Jan 1 as d = 1     
 
 ## VWB Benefits    
 The volume of surface runoff is quantified for two conditions: the "baseline" condition (the expected degraded condition of the land if it were not conserved) and the "with-project" condition (current condition with intact healthy land cover conserved). First, daily runoff volumes are calculated for each condition based on daily precipitation and other inputs. These values are summed to calculate the long-term annual average runoff volumes. The VWB is quantified as the difference in annual average runoff volume between the two conditions.   
@@ -141,7 +149,6 @@ $$
 ### Helper Functions    
 
 ```{r}
-
 library(gt)
 library(tidyverse)
 library(patchwork)
@@ -174,6 +181,43 @@ get_drq <- function(cn, df) {
     
   return(df1)
 }
+
+pet <- function(df, lat) {
+  
+  #R's trig functions expect radians, not degrees
+  phi_rad <- lat * pi / 180
+  
+  dec <- -23.45 * cos((360 / 365) * (df$day + 10))
+
+  delta_rad <- dec * pi / 180
+
+  df |>
+    mutate(ws = acos(-tan(phi_rad) * tan(delta_rad)),
+           n = 24 / pi * ws,
+           es = 0.6108 * exp((17.27 * mean_temp) / (237.3 + mean_temp)),
+           pet = (2.1 * n^2 * es) / (273.2 + mean_temp)
+    )
+
+}
+
+meta <- function(df1, df2) {
+  meta <- left_join(df1, df2, by = "date") |>
+    pivot_longer(cols = c(pet, mean_precip), names_to = "metric", values_to = "value")
+  meta |>
+    ggplot(aes(x = date, y = value, color = metric)) +
+    geom_point() +
+    geom_smooth(method = "loess", se = FALSE, span = 0.3) +
+    theme_bw() +
+    labs(title = "Water Balance Analysis Comparing Precipitation vs. Evapotranspiration",
+         x = "Date",
+         y = "Water (mm)", color = "Metric") +
+    scale_color_manual(
+      values = c("pet" = "#d95f02", "mean_precip" = "#1b9e77"),
+      labels = c("pet" = "PET (mm)", "mean_precip" = "Precipitation (mm)")
+  ) 
+}
+
+
 
 # calculate annuals
 annuals <- function(df1, df2){
@@ -285,6 +329,7 @@ cn_adjust(77, 20)
 #| fig-width: 18 
 #| fig-height: 10
 
+
 precip <- read_parquet("./data/tanz-precip.parquet") |>
  select(date, mean) |>
  mutate(mean_precip = as.numeric(mean),
@@ -292,6 +337,23 @@ precip <- read_parquet("./data/tanz-precip.parquet") |>
  group_by(date) |>
  summarize(mean_precip = mean(mean_precip, na.rm = TRUE)) |>
  arrange(date)
+
+# convert K to C = K - 273.15
+temp <- read_parquet("./data/tanz-temp.parquet") |> select(date, temperature_2m_min, temperature_2m_max) |>
+  mutate(min_temp_c = temperature_2m_min - 273.15,
+         max_temp_c = temperature_2m_max - 273.15,
+         avg_temp_c = (min_temp_c + max_temp_c) / 2,
+         date = ymd(date)
+  ) |>
+  group_by(date) |>
+  summarize(mean_temp = mean(avg_temp_c, na.rm = TRUE)) |>
+  mutate(day = as.numeric(yday(date))) |>
+  arrange(date)
+
+pet_tanz <- pet(temp, -4.8878768365216425) 
+
+meta(pet_tanz, precip)
+
 
 baseline    <- get_drq(cn = 86, df = precip)   
 with_project <- get_drq(cn = 81, df = precip) 
@@ -335,6 +397,21 @@ precip_mal <- read_parquet("./data/mal-precip.parquet") |>
  group_by(date) |>
  summarize(mean_precip = mean(mean, na.rm = TRUE)) |>
  arrange(date)
+
+temp_mal <- read_parquet("./data/mal-temp.parquet") |> select(date, temperature_2m_min, temperature_2m_max) |>
+  mutate(min_temp_c = temperature_2m_min - 273.15,
+         max_temp_c = temperature_2m_max - 273.15,
+         avg_temp_c = (min_temp_c + max_temp_c) / 2,
+         date = ymd(date)
+  ) |>
+  group_by(date) |>
+  summarize(mean_temp = mean(avg_temp_c, na.rm = TRUE)) |>
+  mutate(day = as.numeric(yday(date))) |>
+  arrange(date)
+
+pet_mal <- pet(temp_mal, -14.23418337715322) 
+
+meta(pet_mal, precip_mal)
 
 baseline    <- get_drq(cn = 77, df = precip_mal)   
 with_project <- get_drq(cn = 70, df = precip_mal) 
@@ -389,6 +466,22 @@ precip_pef <- read_parquet("./data/pef-precip.parquet") |>
  group_by(date) |>
  summarize(mean_precip = mean(mean, na.rm = TRUE)) |>
  arrange(date)
+
+temp_pef <- read_parquet("./data/pef-temp.parquet") |> select(date, temperature_2m_min, temperature_2m_max) |>
+  mutate(min_temp_c = temperature_2m_min - 273.15,
+         max_temp_c = temperature_2m_max - 273.15,
+         avg_temp_c = (min_temp_c + max_temp_c) / 2,
+         date = ymd(date)
+  ) |>
+  group_by(date) |>
+  summarize(mean_temp = mean(avg_temp_c, na.rm = TRUE)) |>
+  mutate(day = as.numeric(yday(date))) |>
+  arrange(date)
+
+pet_pef <- pet(temp_pef, 7.190856906030324) 
+
+meta(pet_pef, precip_pef)
+
 
 baseline    <- get_drq(cn = 77, df = precip_pef)   
 with_project <- get_drq(cn = 75, df = precip_pef) 
