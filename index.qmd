@@ -119,7 +119,7 @@ $$
 #### Hydrologic Soil Groups   
 [NASA's EarthData](https://search.earthdata.nasa.gov/search/granules?p=C2216864285-ORNL_CLOUD&pg[0][v]=f&pg[0][gsk]=-start_date) provides a globally consistent, gridded dataset of hydrologic soil groups (HSGs) with a geographical resolution of 1/480 decimal degrees, corresponding to a projected resolution of approximately 250-m. These data were developed to support USDA-based curve-number runoff modeling at regional and continental scales. Classification of HSGs was derived from soil texture classes and depth to bedrock provided by the Food and Agriculture Organization soilGrids250m system.
 
-- [User Manual](https://d3o6w55j8uz1ro.cloudfront.net/s3-d0f68fa49c8cba12794bb586349f2341/ornl-cumulus-prod-public.s3.us-west-2.amazonaws.com/global_soil/Global_Hydrologic_Soil_Group/comp/Global_Hydrologic_Soil_Group.pdf?A-userid=benparker9&Expires=1784583803&Signature=ksFaO5eZFisfNsX6ztDRjlIU9qPsh1KlRBsCeGYih~uMAdnXrpDQC1R3hHKJM1LUXx99ShiXksrMWzoxZK~2NixNlupLCI0jqn2FAw59yqrA6F5UhoZjwUOtTPy3Vq2NLtUZkbmHqgP1qCbOLRqCbctrb7Vka5F8yIjjpdfmycF0gr9V6G1-EbIKjSgS0dkVSsc6IEay88qhfGlz~kIzLGQvW3jHIemK~NXK-1ArwdkYbP1KftL1hFwVKDfuuctobCmmv8DWMuMfAdTJjcZnfUejbU3KJiWwxyWq6rMeroH00LqsAPITRgLW75i2Tv6hzlpOdSs3YPPoZ8wXP507lw__&Key-Pair-Id=K2SSAMUL94RG0Z)
+- [User Manual](https://www.earthdata.nasa.gov/data/catalog/ornl-cloud-global-hydrologic-soil-group-1566-1)
 
 To access it, RRG downloaded the .tif file used project area boundaries to identify hydrologic soil groups for each project.
 
@@ -144,6 +144,10 @@ $$
 
 library(gt)
 library(tidyverse)
+library(patchwork)
+library(lubridate)
+library(arrow)
+
 
 # curve number slope adjustment
 cn_adjust <- function(cn, slp) {
@@ -195,9 +199,57 @@ annuals <- function(df1, df2){
 }
 
 
+table_changes <- function(df) {
+  df |>
+    gt() |>
+    tab_style(
+      style = cell_text(weight = "bold"),
+      locations = cells_column_labels()
+    ) |> 
+    tab_header(
+      title = "Annual changes in runoff due to project activities."
+  ) |> 
+    fmt_number(columns = -year, decimals = 2) |>
+    cols_label(
+             year = "Year",
+             annual_runoff_without = "Annual Runoff Without Project (mm)",
+            annual_runoff_with = "Annual Runoff With Project (mm)",
+            change_runoff = "Annual Runoff Changes Due to Project (mm)"
+  )
+}
+
+
+
+
+vis_changes <- function(df) {
+  p1 <- df |>
+    select(-change_runoff) |>
+    pivot_longer(cols = annual_runoff_without:annual_runoff_with, names_to = "scenario", values_to = "runoff") |>
+    ggplot(aes(x = factor(year), y = runoff, fill = scenario)) +
+    geom_col(position = "dodge") +
+    labs(x = "Year", y = "Annual Runoff (mm)", fill = "Scenario", title = "Annual runoff in each project scenario") +
+    theme_bw()
+
+  p2 <- df |>
+    ggplot(aes(x = year, y = change_runoff)) +
+    geom_point() +
+    geom_line() +
+    labs(x = "Year", y = "Annual Change in Runoff (mm)", fill = "Scenario", title = "Annual runoff changes due to project activities") +
+    theme_bw()
+
+  return(p1 + p2)
+
+}
+
+
+
+
+
 ```
 
-## Project Forest   
+# 2023-2025 Agreements      
+
+## Project Forest Instance 1 - Tanzania       
 
 ### Curve Number        
 A curve number for the without-project condition and the with-project condition were estimated based on information provided by the NASA dataset and table 2.1-2 with the following assumptions on site conditions:         
@@ -232,8 +284,7 @@ cn_adjust(77, 20)
 ```{r}
 #| fig-width: 18 
 #| fig-height: 10
-library(lubridate)
-library(arrow)
+
 precip <- read_parquet("./data/tanz-precip.parquet") |>
  select(date, mean) |>
  mutate(mean_precip = as.numeric(mean),
@@ -247,41 +298,111 @@ with_project <- get_drq(cn = 81, df = precip)
 
 annual_changes <- annuals(df1 = baseline, df2 = with_project)
 
-annual_changes |>
-  gt() |>
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_column_labels()
-    ) |> 
-  tab_header(
-    title = "Annual changes in runoff due to project activities."
-  ) |> 
-  fmt_number(columns = -year, decimals = 2) |>
-  cols_label(
-             year = "Year",
-             annual_runoff_without = "Annual Runoff Without Project (mm)",
-            annual_runoff_with = "Annual Runoff With Project (mm)",
-            change_runoff = "Annual Runoff Changes Due to Project (mm)"
-)
-
-
-library(patchwork)
-
-p1 <- annual_changes |>
-  select(-change_runoff) |>
-  pivot_longer(cols = annual_runoff_without:annual_runoff_with, names_to = "scenario", values_to = "runoff") |>
-  ggplot(aes(x = factor(year), y = runoff, fill = scenario)) +
-  geom_col(position = "dodge") +
-  labs(x = "Year", y = "Annual Runoff (mm)", fill = "Scenario", title = "Annual runoff in each project scenario") +
-  theme_bw()
-
-p2 <- annual_changes |>
-  ggplot(aes(x = year, y = change_runoff)) +
-  geom_point() +
-  geom_line() +
-  labs(x = "Year", y = "Annual Change in Runoff (mm)", fill = "Scenario", title = "Annual runoff changes due to project activities") +
-  theme_bw()
-
-p1 + p2
+table_changes(annual_changes)
+vis_changes(annual_changes)
 
 ```
+
+## IFMRC - Malawi        
+
+### Curve Number        
+A curve number for the without-project condition and the with-project condition were estimated based on information provided by the NASA dataset and table 2.1-2 with the following assumptions on site conditions:         
+
+**Average slope: 1.6%**          
+
+**Without-project**    
+  - Brush-weed-grass mixture with bush as the major element   
+  - HSG C -> majority of project site is C, with less than 2% of the project site HSG D      
+  - Poor condition (<50% groundcover)   
+  - $CN$ = **77**    
+
+
+**With-project**     
+  - Woods    
+  - HSG C   
+  - Good condition (woods are protected from grazing, litter and brush adaquetely cover the soil.)    
+  - $CN$ = **70**     
+
+### VWB   
+
+```{r}
+#| fig-width: 18 
+#| fig-height: 10
+
+precip_mal <- read_parquet("./data/mal-precip.parquet") |>
+ select(date, mean) |>
+ mutate(date = ymd(date)) |>
+ group_by(date) |>
+ summarize(mean_precip = mean(mean, na.rm = TRUE)) |>
+ arrange(date)
+
+baseline    <- get_drq(cn = 77, df = precip_mal)   
+with_project <- get_drq(cn = 70, df = precip_mal) 
+
+annual_changes <- annuals(df1 = baseline, df2 = with_project)
+
+table_changes(annual_changes)
+vis_changes(annual_changes)
+
+```
+
+## Project ReGAIN - Philippines           
+
+### Curve Number        
+A curve number for the without-project condition and the with-project condition were estimated based on information provided by the NASA dataset and table 2.1-2 with the following assumptions on site conditions:         
+
+**Average slope: 28%**          
+
+**Without-project**    
+  - Woods-grass mixture    
+  - HSG C (<5% HSD D)      
+  - Good condition (>75% groundcover)   
+  - $CN$ = **72**    
+
+
+```{r}
+cn_adjust(72, 28)
+```
+
+**With-project**     
+  - Woods    
+  - HSG C (<5% HSD D)      
+  - Good condition (woods are protected from grazing, litter and brush adaquetely cover the soil.)    
+  - $CN$ = **70**     
+
+```{r}
+cn_adjust(70, 28)
+```
+
+
+
+### VWB   
+
+```{r}
+#| fig-width: 18 
+#| fig-height: 10
+
+
+precip_pef <- read_parquet("./data/pef-precip.parquet") |>
+ select(date, mean) |>
+ mutate(date = ymd(date)) |>
+ group_by(date) |>
+ summarize(mean_precip = mean(mean, na.rm = TRUE)) |>
+ arrange(date)
+
+baseline    <- get_drq(cn = 77, df = precip_pef)   
+with_project <- get_drq(cn = 75, df = precip_pef) 
+
+annual_changes <- annuals(df1 = baseline, df2 = with_project)
+
+table_changes(annual_changes)
+vis_changes(annual_changes)
+```
+
+
+
+
+
+
+
+
